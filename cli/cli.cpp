@@ -30,7 +30,8 @@ int main(int argc, char** argv){
     auto bounds = libfive::Region<3>({-2, -2, -2}, {2, 2, 2});
 
     // Mesh::render returns a unique_ptr, so it cleans up automatically
-    libfive::Mesh::render(out, bounds)->saveSTL("sphere.stl");
+    libfive::BRepSettings settings;
+    libfive::Mesh::render(out, bounds, settings)->saveSTL("sphere.stl");
 
     return 0;
 }

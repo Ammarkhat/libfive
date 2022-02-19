@@ -172,3 +172,5 @@ add_subdirectory(libfive)
 if(BUILD_STUDIO_APP AND (STUDIO_WITH_GUILE OR STUDIO_WITH_PYTHON) AND Qt5Core_FOUND)
     add_subdirectory(studio)
 endif(BUILD_STUDIO_APP AND (STUDIO_WITH_GUILE OR STUDIO_WITH_PYTHON) AND Qt5Core_FOUND)
+
+add_subdirectory(cli)

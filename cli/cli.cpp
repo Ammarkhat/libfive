@@ -20,6 +20,7 @@ int main(int argc, char** argv){
     int r2 = 1;
     int x1 = 1;
     int x2 = 1;
+    double d = 0.75;
     if(argc > 1){
         r1 = atoi(argv[1]);
     }
@@ -32,6 +33,9 @@ int main(int argc, char** argv){
     if(argc > 4){
         x2 = atoi(argv[4]);
     }
+    if(argc > 5){
+        d = atof(argv[5]);
+    }
 
     // Unlike the C bindings, the C++ interface manages memory automatically
     // through flyweight handles and RAII.  These objects will be freed
@@ -42,7 +46,7 @@ int main(int argc, char** argv){
 
     // Arithemetic is overloaded for the libfive::Tree type
     auto out = min( sqrt(((x-x1) * (x-x1)) + (y * y) + (z * z)) - r1,
-                    sqrt(((x+x2) * (x+x2)) + (y * y) + (z * z)) - r2) - 0.75;
+                    sqrt(((x+x2) * (x+x2)) + (y * y) + (z * z)) - r2) - d;
 
     // Pick the target region to render
     auto bounds = libfive::Region<3>({-4, -4, -4}, {4, 4, 4});

@@ -16,22 +16,22 @@
 #include "libfive/render/discrete/heightmap.hpp"
 
 int main(int argc, char** argv){
-    int r1 = 1;
-    int r2 = 1;
-    int x1 = 1;
-    int x2 = 1;
+    double r1 = 1;
+    double r2 = 1;
+    double x1 = 1;
+    double x2 = 1;
     double d = 0.75;
     if(argc > 1){
-        r1 = atoi(argv[1]);
+        r1 = atof(argv[1]);
     }
     if(argc > 2){
-        r2 = atoi(argv[2]);
+        r2 = atof(argv[2]);
     }
     if(argc > 3){
-        x1 = atoi(argv[3]);
+        x1 = atof(argv[3]);
     }
     if(argc > 4){
-        x2 = atoi(argv[4]);
+        x2 = atof(argv[4]);
     }
     if(argc > 5){
         d = atof(argv[5]);

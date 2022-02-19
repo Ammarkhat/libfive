@@ -45,8 +45,9 @@ int main(int argc, char** argv){
     auto z = libfive::Tree::Z();
 
     // Arithemetic is overloaded for the libfive::Tree type
-    auto out = min( sqrt(((x-x1) * (x-x1)) + (y * y) + (z * z)) - r1,
-                    sqrt(((x+x2) * (x+x2)) + (y * y) + (z * z)) - r2) - d;
+    auto a = ((x-x1) * (x-x1)) + (y * y) + (z * z) - r1;
+    auto b = ((x+x2) * (x+x2)) + (y * y) + (z * z) - r2;
+    auto out = min(a,b) + sqrt(abs(a)) + sqrt(abs(b)) - d;
 
     // Pick the target region to render
     auto bounds = libfive::Region<3>({-4, -4, -4}, {4, 4, 4});

@@ -24,14 +24,15 @@ int main(int argc, char** argv){
     auto z = libfive::Tree::Z();
 
     // Arithemetic is overloaded for the libfive::Tree type
-    auto out = (x * x) + (y * y) + (z * z) - 1;
+    auto out = min( sqrt(((x-1) * (x-1)) + (y * y) + (z * z)) - 1,
+                    sqrt(((x+1) * (x+1)) + (y * y) + (z * z)) - 1) - 0.75;
 
     // Pick the target region to render
-    auto bounds = libfive::Region<3>({-2, -2, -2}, {2, 2, 2});
+    auto bounds = libfive::Region<3>({-4, -4, -4}, {4, 4, 4});
 
     // Mesh::render returns a unique_ptr, so it cleans up automatically
     libfive::BRepSettings settings;
-    libfive::Mesh::render(out, bounds, settings)->saveSTL("sphere.stl");
+    libfive::Mesh::render(out, bounds, settings)->saveSTL("spheres.stl");
 
     return 0;
 }

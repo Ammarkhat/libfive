@@ -21,11 +21,8 @@ if (LIBFIVE_PACKED_OPCODES)
     add_definitions(-DLIBFIVE_PACKED_OPCODES)
 endif()
 
-set(USE_BOOST_HEADERS ON)
-
 # Build libfive with ccache if the package is present
 set(LIBFIVE_CCACHE_BUILD OFF CACHE BOOL "Set to ON for a ccache enabled build")
-
 if(LIBFIVE_CCACHE_BUILD)
   find_program(CCACHE_PROGRAM ccache)
   if(CCACHE_PROGRAM)
@@ -79,23 +76,23 @@ endif()
 # Find all packages here at the top level so we can print debugging info
 if(NOT MSVC)
     # These packages have different naming conventions in MSVC vs Linux
-    find_package(Boost)
-    #find_package(PkgConfig REQUIRED)
+    find_package(Boost REQUIRED)
+    find_package(PkgConfig REQUIRED)
 
-    #pkg_check_modules(GUILE guile-2.2>=2.2.1)
-    #if (NOT(GUILE_FOUND))
-    #    pkg_check_modules(GUILE guile-3.0>=3.0.0)
-    #endif()
+    pkg_check_modules(GUILE guile-2.2>=2.2.1)
+    if (NOT(GUILE_FOUND))
+        pkg_check_modules(GUILE guile-3.0>=3.0.0)
+    endif()
 
-    #pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
+    pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
 else()
     find_package(eigen3 REQUIRED)
-    find_package(boost 1.65.0)
+    find_package(boost REQUIRED 1.65.0)
 endif()
 
 # These packages have consistent names across OS's
-#find_package(PNG REQUIRED)
-#find_package(Python3 COMPONENTS Interpreter Development)
+find_package(PNG REQUIRED)
+find_package(Python3 COMPONENTS Interpreter Development)
 
 # Both Windows and Linux will attempt to build the Studio UI
 if (BUILD_STUDIO_APP)

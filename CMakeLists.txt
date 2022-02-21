@@ -79,7 +79,7 @@ endif()
 # Find all packages here at the top level so we can print debugging info
 if(NOT MSVC)
     # These packages have different naming conventions in MSVC vs Linux
-    #find_package(Boost REQUIRED)
+    find_package(Boost)
     #find_package(PkgConfig REQUIRED)
 
     #pkg_check_modules(GUILE guile-2.2>=2.2.1)
@@ -90,7 +90,7 @@ if(NOT MSVC)
     #pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
 else()
     find_package(eigen3 REQUIRED)
-    #find_package(boost REQUIRED 1.65.0)
+    find_package(boost 1.65.0)
 endif()
 
 # These packages have consistent names across OS's

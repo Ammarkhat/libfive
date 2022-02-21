@@ -1,8 +1,16 @@
 # LibFive Docker Build
-docker build --tag libfive --file Dockerfile.ubuntu .
+docker build --tag emscripten_libfive --file Dockerfile.emscripten.debian .
 
 # LibFive Docker Run
-docker run -it libfive bash
+docker run -it emscripten_libfive bash
+
+# LibFive Docker Run with Shared volume (new_vol created by docker desktop)
+docker run -it -v new_vol:/my_files emscripten_libfive bash
+
+## share path
+docker run -it -v c:/:/data:/my_files emscripten_libfive bash
+
+files will be available in /my_files inside the container
 
 ## copy file from container, ex: "keen_banach"
 docker exec keen_banach pwd

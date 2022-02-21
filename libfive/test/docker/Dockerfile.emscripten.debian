@@ -1,0 +1,10 @@
+# Point at any base image that you find suitable to extend.
+FROM emscripten/emsdk
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libeigen3-dev \
+    libpng-dev \
+    libboost-all-dev

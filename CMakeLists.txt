@@ -74,20 +74,28 @@ endif()
 
 ################################################################################
 # Find all packages here at the top level so we can print debugging info
-if(NOT MSVC)
-    # These packages have different naming conventions in MSVC vs Linux
-    find_package(Boost REQUIRED)
-    find_package(PkgConfig REQUIRED)
-
-    pkg_check_modules(GUILE guile-2.2>=2.2.1)
-    if (NOT(GUILE_FOUND))
-        pkg_check_modules(GUILE guile-3.0>=3.0.0)
-    endif()
-
-    pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
+if( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    set(USE_FLAGS "-s USE_BOOST_HEADERS=1")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
+    set(CMAKE_EXECUTABLE_SUFFIX .html)
 else()
-    find_package(eigen3 REQUIRED)
-    find_package(boost REQUIRED 1.65.0)
+    if(NOT MSVC)
+      # These packages have different naming conventions in MSVC vs Linux
+      find_package(Boost REQUIRED)
+      find_package(PkgConfig REQUIRED)
+
+      pkg_check_modules(GUILE guile-2.2>=2.2.1)
+      if (NOT(GUILE_FOUND))
+          pkg_check_modules(GUILE guile-3.0>=3.0.0)
+      endif()
+
+      pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
+    else()
+      find_package(eigen3 REQUIRED)
+      find_package(boost REQUIRED 1.65.0)
+    endif()
 endif()
 
 # These packages have consistent names across OS's

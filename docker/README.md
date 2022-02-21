@@ -21,3 +21,8 @@ git fetch --all
 git reset --hard origin/dev-ammar
 cd build
 make -j4
+
+#emscripten
+emcmake cmake ..
+or
+cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DUSE_BOOST_HEADERS=1 .. 

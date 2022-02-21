@@ -80,6 +80,7 @@ if( ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXECUTABLE_SUFFIX .html)
+    find_package(eigen3 REQUIRED)
 else()
     if(NOT MSVC)
       # These packages have different naming conventions in MSVC vs Linux

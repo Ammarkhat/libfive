@@ -100,6 +100,10 @@ else()
     find_package(PNG REQUIRED)
     find_package(Python3 COMPONENTS Interpreter Development)
 
+    if (UNIX AND NOT(APPLE))
+        find_package(Threads REQUIRED)
+        set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
+    endif(UNIX AND NOT(APPLE))
 endif()
 
 # Both Windows and Linux will attempt to build the Studio UI
@@ -107,10 +111,6 @@ if (BUILD_STUDIO_APP)
     find_package(Qt5Core 5.12)
 endif()
 
-if (UNIX AND NOT(APPLE))
-    find_package(Threads REQUIRED)
-    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
-endif(UNIX AND NOT(APPLE))
 
 ################################################################################
 # Inform the user which subsystems will be built and any missing deps

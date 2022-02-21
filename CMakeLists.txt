@@ -21,8 +21,11 @@ if (LIBFIVE_PACKED_OPCODES)
     add_definitions(-DLIBFIVE_PACKED_OPCODES)
 endif()
 
+set(USE_BOOST_HEADERS ON)
+
 # Build libfive with ccache if the package is present
 set(LIBFIVE_CCACHE_BUILD OFF CACHE BOOL "Set to ON for a ccache enabled build")
+
 if(LIBFIVE_CCACHE_BUILD)
   find_program(CCACHE_PROGRAM ccache)
   if(CCACHE_PROGRAM)

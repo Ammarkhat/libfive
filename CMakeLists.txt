@@ -84,7 +84,7 @@ if(NOT MSVC)
     #    pkg_check_modules(GUILE guile-3.0>=3.0.0)
     #endif()
 
-    //pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
+    #pkg_check_modules(EIGEN REQUIRED eigen3>=3.2.92)
 else()
     find_package(eigen3 REQUIRED)
     #find_package(boost REQUIRED 1.65.0)

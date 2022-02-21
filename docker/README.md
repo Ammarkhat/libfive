@@ -26,3 +26,4 @@ make -j4
 emcmake cmake ..
 or
 cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DUSE_BOOST_HEADERS=1 .. 
+emmake make

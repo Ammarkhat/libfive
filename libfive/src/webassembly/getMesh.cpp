@@ -50,10 +50,9 @@ extern "C" char* get_mesh(unsigned long* size)
     libfive::BRepSettings settings;
     auto mesh = libfive::Mesh::render(out, bounds, settings);
     MeshStr m;
-    uint32_t num = std::accumulate(meshes.begin(), meshes.end(), (uint32_t)0,
-            [](uint32_t i, const Mesh* m){ return i + m->branes.size(); });
+    uint32_t num = mesh()->branes.size();
     m.vertices.push_back(num);
-    
+
     // for (const auto& v : mesh->verts)
     // {
     //     m.vertices.push_back(v.x());

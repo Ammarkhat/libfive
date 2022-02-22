@@ -82,6 +82,8 @@ add_library(libfive SHARED
     oracle/transformed_oracle.cpp
     oracle/transformed_oracle_clause.cpp
 
+    webassembly/getMesh.cpp
+
     libfive.cpp
 )
 
@@ -134,6 +136,7 @@ target_include_directories(libfive SYSTEM PUBLIC
     ${Boost_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIR}
     ${EIGEN_INCLUDE_DIRS}
+    /my_files/libfive/msgpack-c/include
 )
 target_include_directories(libfive PUBLIC
     ../include

@@ -52,7 +52,7 @@ extern "C" char* get_mesh(unsigned long* size)
     MeshStr m;
     //m.faces = mesh->getFaces();
     //m.vertices = mesh->getVertices();
-    m.faces.push_back(mesh->getFaces().size());
+    m.faces.push_back(10);
 
     msgpack::sbuffer sbuf;
     msgpack::pack(sbuf, m);

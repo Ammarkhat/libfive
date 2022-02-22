@@ -48,11 +48,11 @@ extern "C" char* get_mesh(unsigned long* size)
 
     // Mesh::render returns a unique_ptr, so it cleans up automatically
     libfive::BRepSettings settings;
+    settings.workers = 1;
     auto mesh = libfive::Mesh::render(out, bounds, settings);
     MeshStr m;
-    //m.faces = mesh->getFaces();
-    //m.vertices = mesh->getVertices();
-    m.faces.push_back(10);
+    m.faces = mesh->getFaces();
+    m.vertices = mesh->getVertices();
 
     msgpack::sbuffer sbuf;
     msgpack::pack(sbuf, m);

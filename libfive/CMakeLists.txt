@@ -20,6 +20,8 @@ if (BUILD_PYTHON_BINDINGS AND Python3_FOUND)
   add_subdirectory(bind/python)
 endif()
 
+add_subdirectory(bind/webassembly)
+
 if(UNIX AND NOT(APPLE))
     set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
     CONFIGURE_FILE("libfive.pc.in" "libfive.pc" @ONLY)

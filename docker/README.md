@@ -49,6 +49,14 @@ emcc libfive/src/libfive.a -o libfive.html -Os \
       -s ALLOW_MEMORY_GROWTH=1 \
       -s EXPORTED_FUNCTIONS="['_malloc', '_get_mesh', '_free']"
 
+# for debugging
+on the cmake level:
+emcmake cmake -DCMAKE_BUILD_TYPE=Debug ..
+
+on emcc level:
+-O0 -g -gsource-map -s ASSERTIONS=1 
+
+
 ## some examples of emcc
 emcc hello.c -o hello.js -s WASM=1 -s EXPORTED_FUNCTIONS='["_fib"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'
 
@@ -59,8 +67,7 @@ emcc \
       -s WASM=1 \
       -s FETCH=1 \
       -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "setValue", "getValue"]' \
-      -s USE_PTHREADS=1 \
-      -s PTHREAD_POOL_SIZE=4 \
+      -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 \
       -s ALLOW_MEMORY_GROWTH=1 \
       -s EXPORTED_FUNCTIONS="['_show_friends', '_malloc', '_get_address', '_free', '_add_numbers', '_get_cars', '_calculate_sums']" \
       src/modules/friends/show-friends.cpp \

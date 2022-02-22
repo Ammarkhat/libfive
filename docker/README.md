@@ -44,6 +44,7 @@ emcc libfive/src/libfive.a -o libfive.html
 emcc libfive/src/libfive.a -o libfive.html -Os \
       -s WASM=1 \
       -s FETCH=1 \
+      -s ASSERTIONS=1 \
       -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "setValue", "getValue"]' \
       -s ALLOW_MEMORY_GROWTH=1 \
       -s EXPORTED_FUNCTIONS="['_malloc', '_get_mesh', '_free']"

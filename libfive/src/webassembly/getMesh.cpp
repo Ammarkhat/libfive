@@ -50,9 +50,10 @@ extern "C" char* get_mesh(unsigned long* size)
     libfive::BRepSettings settings;
     auto mesh = libfive::Mesh::render(out, bounds, settings);
     MeshStr m;
-    m.faces = mesh->getFaces();
-    m.vertices = mesh->getVertices();
-      
+    //m.faces = mesh->getFaces();
+    //m.vertices = mesh->getVertices();
+    m.faces.push_back(mesh->getFaces().size());
+
     msgpack::sbuffer sbuf;
     msgpack::pack(sbuf, m);
 

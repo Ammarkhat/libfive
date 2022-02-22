@@ -12,6 +12,9 @@ docker run -it -v c:/:/data:/my_files emscripten_libfive bash
 
 files will be available in /my_files inside the container
 
+or if its already mounted, then run docker exec:
+docker exec -it mystifying_newton bash
+
 ## copy file from container, ex: "keen_banach"
 docker exec keen_banach pwd
 docker cp keen_banach:/libfive/build/cli/sphere.stl sphere.stl
@@ -35,7 +38,7 @@ git clone https://github.com/msgpack/msgpack-c
 
 ## using emscripten
 emcmake cmake ..
-emmake make
+emmake make -j8
 emcc libfive/src/libfive.a -o libfive.html
 
 emcc libfive/src/libfive.a -o libfive.html -Os \

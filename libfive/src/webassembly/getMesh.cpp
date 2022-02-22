@@ -52,15 +52,15 @@ extern "C" char* get_mesh(unsigned long* size)
     MeshStr m;
     for (const auto& v : mesh->verts)
     {
-        m.vertices.push_back(v.x);
-        m.vertices.push_back(v.y);
-        m.vertices.push_back(v.z);
+        m.vertices.push_back(v.x());
+        m.vertices.push_back(v.y());
+        m.vertices.push_back(v.z());
     }
     for (const auto& t : mesh->branes)
     {
         for (unsigned i=0; i < 3; ++i)
         {
-            m.faces.push_back(t.v[i]);
+            m.faces.push_back(t[i]);
         }
     }
       

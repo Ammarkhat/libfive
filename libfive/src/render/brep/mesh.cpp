@@ -198,4 +198,23 @@ bool Mesh::saveSTL(const std::string& filename) const
     return saveSTL(filename, {this});
 }
 
+std::vector<int> Mesh::getFaces(){
+    std::vector<int> faces;
+    for(auto& t : branes){
+        faces.push_back(t[0]);
+        faces.push_back(t[1]);
+        faces.push_back(t[2]);
+    }
+    return faces;
+}
+std::vector<float> Mesh::getVertices(){
+    std::vector<float> verts;
+    for(auto& v : this->verts){
+        verts.push_back(v.x());
+        verts.push_back(v.y());
+        verts.push_back(v.z());
+    }
+    return verts;
+}
+
 }   // namespace libfive

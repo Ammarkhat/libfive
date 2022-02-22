@@ -270,7 +270,7 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
 
     //std::vector<std::future<void>> futures;
     //futures.resize(settings.workers);
-    //std::atomic_bool done(false);
+    std::atomic_bool done(false);
     for (unsigned i=0; i < settings.workers; ++i) {
         //futures[i] = std::async(std::launch::async,
         //    [&breps, &tasks, &MesherFactory, &settings, &done, i]()

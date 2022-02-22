@@ -35,8 +35,6 @@ git clone https://github.com/msgpack/msgpack-c
 
 ## using emscripten
 emcmake cmake ..
-or
-cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DUSE_BOOST_HEADERS=1 .. 
 emmake make
 emcc libfive/src/libfive.a -o libfive.html
 
@@ -45,7 +43,7 @@ emcc libfive/src/libfive.a -o libfive.html -Os \
       -s FETCH=1 \
       -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "setValue", "getValue"]' \
       -s ALLOW_MEMORY_GROWTH=1 \
-      -s EXPORTED_FUNCTIONS="['_malloc', '_get_address', '_free']"
+      -s EXPORTED_FUNCTIONS="['_malloc', '_get_mesh', '_free']"
 
 ## some examples of emcc
 emcc hello.c -o hello.js -s WASM=1 -s EXPORTED_FUNCTIONS='["_fib"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'

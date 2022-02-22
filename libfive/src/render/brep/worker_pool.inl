@@ -62,7 +62,7 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
         settings.progress_handler->nextPhase(ticks + 1);
     }
 
-    //std::atomic_bool done(false);
+    std::atomic_bool done(false);
     for (unsigned i=0; i < settings.workers; ++i)
     {
         //futures[i] = std::async(std::launch::async,

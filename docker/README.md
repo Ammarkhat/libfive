@@ -30,8 +30,37 @@ git reset --hard origin/dev-ammar
 cd build
 make -j4
 
+## clone submodule msg-c
+git clone https://github.com/msgpack/msgpack-c
+
 ## using emscripten
 emcmake cmake ..
 or
 cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DUSE_BOOST_HEADERS=1 .. 
 emmake make
+emcc libfive/src/libfive.a -o libfive.html
+
+## some examples of emcc
+emcc hello.c -o hello.js -s WASM=1 -s EXPORTED_FUNCTIONS='["_fib"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'
+
+emcc lib/libzstd.bc -o zstd.js -O2 -s WASM=1 -s EXPORTED_FUNCTIONS="['_ZSTD_compress', '_ZSTD_compressBound', '_ZSTD_isError']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" -s ALLOW_MEMORY_GROWTH=1 -s ABORTING_MALLOC=0
+
+emcc \
+      -Os \
+      -s WASM=1 \
+      -s FETCH=1 \
+      -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "setValue", "getValue"]' \
+      -s USE_PTHREADS=1 \
+      -s PTHREAD_POOL_SIZE=4 \
+      -s ALLOW_MEMORY_GROWTH=1 \
+      -s EXPORTED_FUNCTIONS="['_show_friends', '_malloc', '_get_address', '_free', '_add_numbers', '_get_cars', '_calculate_sums']" \
+      src/modules/friends/show-friends.cpp \
+      src/modules/friends/friend.cpp \
+      src/modules/friends/friends.cpp \
+      src/modules/get-address.cpp \
+      src/modules/add-numbers.cpp \
+      src/modules/spreadsheet.cpp \
+      src/modules/get-cars.cpp \
+      -I/Users/torgeirhelgevold/development/msgpack-c/include \
+      -o src/app/wasm/wasm-module.js
+

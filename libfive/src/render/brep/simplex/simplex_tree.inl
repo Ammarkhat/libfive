@@ -862,19 +862,19 @@ void SimplexTree<N>::assignIndices(const BRepSettings& settings) const
     std::atomic<uint64_t> global_index(1);
     std::atomic_bool done(false);
 
-    std::vector<std::future<void>> futures;
-    futures.resize(settings.workers);
+    //std::vector<std::future<void>> futures;
+    //futures.resize(settings.workers);
     for (unsigned i=0; i < settings.workers; ++i) {
-        futures[i] = std::async(std::launch::async,
-            [&done, &settings, &tasks, &global_index]() {
+        //futures[i] = std::async(std::launch::async,
+        //    [&done, &settings, &tasks, &global_index]() {
                 assignIndicesWorker(tasks, global_index, done, settings.cancel);
-            });
+        //    });
     }
 
     // Wait on all of the futures
-    for (auto& f : futures) {
-        f.get();
-    }
+    // for (auto& f : futures) {
+    //     f.get();
+    // }
 
     assert(done.load() || settings.cancel.load());
 }

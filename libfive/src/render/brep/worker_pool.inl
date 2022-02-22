@@ -62,20 +62,20 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
         settings.progress_handler->nextPhase(ticks + 1);
     }
 
-    std::atomic_bool done(false);
+    //std::atomic_bool done(false);
     for (unsigned i=0; i < settings.workers; ++i)
     {
-        futures[i] = std::async(std::launch::async,
-                [&eval, &tasks, &out, &root_lock, &settings, &done, i](){
+        //futures[i] = std::async(std::launch::async,
+        //        [&eval, &tasks, &out, &root_lock, &settings, &done, i](){
                     run(eval + i, tasks, out, root_lock, settings, done);
-                });
+        //        });
     }
 
     // Wait on all of the futures
-    for (auto& f : futures)
-    {
-        f.get();
-    }
+    // for (auto& f : futures)
+    // {
+    //     f.get();
+    // }
 
     assert(done.load() || settings.cancel.load());
 

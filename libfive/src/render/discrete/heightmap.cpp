@@ -294,22 +294,22 @@ std::unique_ptr<Heightmap> Heightmap::render(
     }
 
     // Start a set of async tasks to render subregions in separate threads
-    std::list<std::future<void>> futures;
+    //std::list<std::future<void>> futures;
     auto itr = es.begin();
     for (auto region : rs)
     {
-        futures.push_back(std::async(std::launch::async,
-            [itr, region, &out, &abort](){
+        //futures.push_back(std::async(std::launch::async,
+        //    [itr, region, &out, &abort](){
                 out->recurse(*itr, (*itr)->getDeck()->tape, region, abort);
-            }));
+        //    }));
         ++itr;
     }
 
     // Wait for all of the tasks to finish running in the background
-    for (auto& f : futures)
-    {
-        f.wait();
-    }
+    // for (auto& f : futures)
+    // {
+    //     f.wait();
+    // }
 
     // If a voxel is touching the top Z boundary, set the normal to be
     // pointing in the Z direction.

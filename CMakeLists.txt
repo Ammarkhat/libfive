@@ -104,12 +104,12 @@ else()
     find_package(PNG REQUIRED)
     find_package(Python3 COMPONENTS Interpreter Development)
 
-    if (UNIX AND NOT(APPLE))
-        find_package(Threads REQUIRED)
-    endif(UNIX AND NOT(APPLE))
+    
 endif()
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
 if (UNIX AND NOT(APPLE))
+    find_package(Threads REQUIRED)
     set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
 endif(UNIX AND NOT(APPLE))
 

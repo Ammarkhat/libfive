@@ -756,7 +756,7 @@ bool HybridTree<N>::collectChildren(Evaluator* eval,
     std::array<HybridTree<N>*, 1 << N> cs;
     for (unsigned i=0; i < this->children.size(); ++i)
     {
-        cs[i] = this->children[i].load(std::memory_order_relaxed);
+        cs[i] = this->children[i];
     }
 
     // If any children are branches, then we can't collapse.

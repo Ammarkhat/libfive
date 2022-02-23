@@ -60,7 +60,7 @@ template <unsigned N, typename T, typename L>
 const T* XTree<N, T, L>::child(unsigned i) const
 {
     return isBranch()
-        ? children[i].load(std::memory_order_relaxed)
+        ? children[i]
         : static_cast<const T*>(this);
 }
 

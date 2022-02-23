@@ -107,7 +107,7 @@ bool VolTree::collectChildren(Evaluator*,
     std::array<VolTree*, 8> cs;
     for (unsigned i=0; i < this->children.size(); ++i)
     {
-        cs[i] = this->children[i].load(std::memory_order_relaxed);
+        cs[i] = this->children[i].load;
     }
 
     // If any children are branches, then we can't collapse.

@@ -187,7 +187,7 @@ const VolTree* VolTree::push(unsigned i, const Region<2>::Perp& perp) const
         if (perp(0) >= region.center()(2)) {
             i |= Axis::Z;
         }
-        return children[i].load();
+        return children[i];
     } else if (this->type == Interval::AMBIGUOUS) {
         return nullptr;
     } else {
@@ -198,7 +198,7 @@ const VolTree* VolTree::push(unsigned i, const Region<2>::Perp& perp) const
 const VolTree* VolTree::push(unsigned i, const Region<3>::Perp&) const
 {
     if (isBranch()) {
-        return children[i].load();
+        return children[i];
     } else if (this->type == Interval::AMBIGUOUS) {
         return nullptr;
     } else {

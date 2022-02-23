@@ -22,7 +22,7 @@ using namespace libfive;
 // Helper function to make rendering a single call
 static std::unique_ptr<Heightmap> render(Tree t, const Voxels& r)
 {
-    std::atomic_bool abort(false);
+    bool abort(false);
 
     return Heightmap::render(t, r, abort);
 }

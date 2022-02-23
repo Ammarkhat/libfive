@@ -9,7 +9,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #pragma once
 
 #include <array>
-#include <atomic>
+
 
 #include "libfive/eval/interval.hpp"
 #include "libfive/render/brep/region.hpp"
@@ -63,7 +63,7 @@ public:
     unsigned parent_index;
 
     /*  Children pointers, if this is a branch  */
-    std::array<std::atomic<T*>, 1 << N> children;
+    std::array<T*, 1 << N> children;
 
     /*  Leaf cell state, when known  */
     Interval::State type;
@@ -75,7 +75,7 @@ public:
     L* leaf;
 
     /*  Marks whether this tree is fully constructed */
-    mutable std::atomic_uint pending;
+    mutable uint pending;
 
 protected:
     /*

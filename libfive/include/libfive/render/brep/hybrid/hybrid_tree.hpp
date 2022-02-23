@@ -161,7 +161,7 @@ public:
     void map(F& f) const {
         if (this->isBranch()) {
             for (auto& c : this->children) {
-                c.load()->map(f);
+                c->map(f);
             }
         }
         else {

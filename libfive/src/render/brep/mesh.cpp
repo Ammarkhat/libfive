@@ -58,7 +58,7 @@ std::unique_ptr<Mesh> Mesh::render(
         }
         auto t = DCWorkerPool<3>::build(es, r, settings);
 
-        if (settings.cancel.load() || t.get() == nullptr) {
+        if (settings.cancel || t.get() == nullptr) {
             if (settings.progress_handler) {
                 settings.progress_handler->finish();
             }
@@ -79,7 +79,7 @@ std::unique_ptr<Mesh> Mesh::render(
         }
         auto t = SimplexWorkerPool<3>::build(es, r, settings);
 
-        if (settings.cancel.load() || t.get() == nullptr) {
+        if (settings.cancel || t.get() == nullptr) {
             if (settings.progress_handler) {
                 settings.progress_handler->finish();
             }
@@ -102,7 +102,7 @@ std::unique_ptr<Mesh> Mesh::render(
         }
         auto t = HybridWorkerPool<3>::build(es, r, settings);
 
-        if (settings.cancel.load() || t.get() == nullptr) {
+        if (settings.cancel || t.get() == nullptr) {
             if (settings.progress_handler) {
                 settings.progress_handler->finish();
             }

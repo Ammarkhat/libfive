@@ -9,7 +9,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 #pragma once
 
-#include <atomic>
+
 #include <boost/lockfree/stack.hpp>
 
 #include "libfive/render/brep/root.hpp"
@@ -60,7 +60,7 @@ protected:
     static void run(Evaluator* eval, LockFreeStack& tasks,
                     Root<T>& root, std::mutex& root_lock,
                     const BRepSettings& settings,
-                    std::atomic_bool& done);
+                    bool& done);
 };
 
 }   // namespace libfive

@@ -8,7 +8,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 #pragma once
 
-#include <atomic>
+
 
 #include "libfive/eval/evaluator.hpp"
 #include "libfive/render/discrete/voxels.hpp"
@@ -28,14 +28,14 @@ public:
      */
     static std::unique_ptr<Heightmap> render(
             const Tree& t, Voxels r,
-            const std::atomic_bool& abort, size_t threads=8);
+            const bool& abort, size_t threads=8);
 
     /*
      *  Render an image using pre-allocated evaluators
      */
     static std::unique_ptr<Heightmap> render(
             const std::vector<Evaluator*>& es, Voxels r,
-            const std::atomic_bool& abort);
+            const bool& abort);
 
     /*
      *  Saves the depth component as a 16-bit single-channel PNG
@@ -59,7 +59,7 @@ protected:
      *  Returns true if aborted, false otherwise
      */
     bool recurse(Evaluator* e, const std::shared_ptr<Tape>& tape,
-                 const Voxels::View& r, const std::atomic_bool& abort);
+                 const Voxels::View& r, const bool& abort);
 
     /*
      *  Evaluates a set of voxels on a pixel-by-pixel basis

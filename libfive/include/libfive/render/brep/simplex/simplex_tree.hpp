@@ -9,7 +9,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #pragma once
 
 #include <array>
-#include <atomic>
+
 #include <iostream>
 #include <stack>
 
@@ -46,7 +46,7 @@ struct SimplexLeafSubspace {
     bool inside;
 
     /*   Global indices for subspace vertices  */
-    std::atomic<uint64_t> index;
+    uint64_t index;
 
     /*  Per-subspace QEF */
     QEF<N> qef;
@@ -56,7 +56,7 @@ struct SimplexLeafSubspace {
      *  at a time (since they represent shared spaces).  We use a
      *  homebrew reference counting system to avoid releasing them to
      *  the pool while they're still in use.  */
-    std::atomic<uint32_t> refcount;
+    uint32_t refcount;
 
     ALIGNED_OPERATOR_NEW_AND_DELETE(SimplexLeafSubspace)
 };
@@ -73,7 +73,7 @@ struct SimplexLeaf
     /*  One QEF structure per subspace in the leaf, shared between neighbors.
      *  These pointers are owned by an object pool, for fast allocation
      *  and re-use. */
-    std::array<std::atomic<SimplexLeafSubspace<N>*>, ipow(3, N)> sub;
+    std::array<SimplexLeafSubspace<N>*, ipow(3, N)> sub;
 
     /*  Tape used for evaluation within this leaf */
     std::shared_ptr<Tape> tape;

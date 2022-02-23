@@ -974,7 +974,7 @@ bool DCTree<N>::checkConsistency(const DCNeighbors<N>& neighbors) const
     if (this->isBranch()) {
         for (unsigned i=0; i < this->children.size(); ++i) {
             auto next = neighbors.push(i, this->children);
-            if (!this->children[i].load()->checkConsistency(next)) {
+            if (!this->children[i]->checkConsistency(next)) {
                 return false;
             }
         }

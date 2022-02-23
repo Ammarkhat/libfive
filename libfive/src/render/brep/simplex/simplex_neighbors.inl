@@ -27,7 +27,7 @@ SimplexLeafSubspace<N>* SimplexNeighbors<N>::getSubspace(NeighborIndex i) const
     for (const auto& t : NeighborTables<N>::neighborTable(i)) {
         const auto n = this->neighbors[t.first.i];
         if (n != nullptr && n->leaf != nullptr) {
-            auto ptr = n->leaf->sub[t.second.i].load();
+            auto ptr = n->leaf->sub[t.second.i];
             if (reinterpret_cast<uintptr_t>(ptr) >
                 reinterpret_cast<uintptr_t>(out))
             {
@@ -56,11 +56,11 @@ SimplexLeafSubspace<N>* SimplexNeighbors<N>::getSubspace(NeighborIndex i) const
             auto n = this->neighbors[t.first.i];
             if (n != nullptr) {
                 while (n->isBranch()) {
-                    n = n->children[t.second.i].load();
+                    n = n->children[t.second.i];
                     assert(n != nullptr);
                 }
                 assert(n->leaf != nullptr);
-                auto ptr = n->leaf->sub[t.second.neighbor().i].load();
+                auto ptr = n->leaf->sub[t.second.neighbor().i];
                 if (reinterpret_cast<uintptr_t>(ptr) >
                     reinterpret_cast<uintptr_t>(out))
                 {

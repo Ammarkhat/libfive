@@ -18,17 +18,17 @@ Neighbors<N, T, C>::Neighbors() {
 
 template <unsigned N, typename T, typename C>
 C Neighbors<N, T, C>::push(uint8_t child,
-           const std::array<std::atomic<T*>, 1 << N>& children) const
+           const std::array<T*, 1 << N>& children) const
 {
     C out;
     for (unsigned i=0; i < ipow(3, N) - 1; ++i)
     {
         const auto q = NeighborTables<N>::pushIndexTable(child)[i];
         if (q.first.i == -1) {
-            out.neighbors[i] = children[q.second.i].load();
+            out.neighbors[i] = children[q.second.i];
         } else if (neighbors[q.first.i]) {
             out.neighbors[i] = neighbors[q.first.i]->
-                children[q.second.i].load();
+                children[q.second.i];
         }
     }
 

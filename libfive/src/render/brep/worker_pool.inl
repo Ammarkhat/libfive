@@ -62,7 +62,7 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
         settings.progress_handler->nextPhase(ticks + 1);
     }
 
-    std::atomic_bool done(false);
+    bool done(false);
     for (unsigned i=0; i < settings.workers; ++i)
     {
         //futures[i] = std::async(std::launch::async,
@@ -77,9 +77,9 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
     //     f.get();
     // }
 
-    assert(done.load() || settings.cancel.load());
+    assert(done || settings.cancel);
 
-    if (settings.cancel.load())
+    if (settings.cancel)
     {
         return Root<T>();
     }
@@ -94,7 +94,7 @@ void WorkerPool<T, Neighbors, N>::run(
         Evaluator* eval, LockFreeStack& tasks,
         Root<T>& root, std::mutex& root_lock,
         const BRepSettings& settings,
-        std::atomic_bool& done)
+        bool& done)
 {
     // Tasks to be evaluated by this thread (populated when the
     // MPMC stack is completely full).
@@ -102,7 +102,7 @@ void WorkerPool<T, Neighbors, N>::run(
 
     typename T::Pool object_pool;
 
-    while (!done.load() && !settings.cancel.load())
+    while (!done && !settings.cancel)
     {
         // Prioritize picking up a local task before going to
         // the MPMC queue, to keep things in this thread for
@@ -246,10 +246,9 @@ void WorkerPool<T, Neighbors, N>::run(
 
     // If we've broken out of the loop, then we should set the done flag
     // so that other worker threads also terminate.
-    done.store(true);
+    done = true;
 
     {   // Release the pooled objects to the root
-        std::lock_guard<std::mutex> lock(root_lock);
         root.claim(object_pool);
     }
 }

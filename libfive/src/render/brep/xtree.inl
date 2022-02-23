@@ -17,7 +17,7 @@ XTree<N, T, L>::XTree()
 {
     for (auto& c : children)
     {
-        c.store(nullptr, std::memory_order_relaxed);
+        c= nullptr;
     }
     leaf = nullptr;
 }
@@ -41,14 +41,14 @@ void XTree<N, T, L>::reset(T* p, unsigned i, const Region<N>& r)
     // By design, a tree that is being reset must have no children
     for (auto& c : children)
     {
-        assert(c.load() == nullptr);
+        assert(c == nullptr);
         (void)c;
     }
 
     // By design, a tree that is being reset also has no leaf.
     assert(leaf == nullptr);
 
-    pending.store((1 << N) - 1);
+    pending=(1 << N) - 1;
 }
 
 template <unsigned N, typename T, typename L>
@@ -67,13 +67,13 @@ const T* XTree<N, T, L>::child(unsigned i) const
 template <unsigned N, typename T, typename L>
 void XTree<N, T, L>::resetPending() const
 {
-    pending.store((1 << N) - 1);
+    pending=(1 << N) - 1;
     if (isBranch()) {
         for (auto& c : children) {
-            if (T::isSingleton(c.load())) {
+            if (T::isSingleton(c)) {
                 pending--;
             }
-            c.load()->resetPending();
+            c->resetPending();
         }
     }
 }
@@ -91,7 +91,8 @@ void XTree<N, T, L>::releaseChildren(Pool& object_pool)
 {
     for (auto& c : children)
     {
-        auto ptr = c.exchange(nullptr);
+        auto ptr = c;
+        c = nullptr;
         assert(ptr != nullptr);
         ptr->releaseTo(object_pool);
     }
@@ -103,7 +104,7 @@ bool XTree<N, T, L>::done()
     bool out = false;
     if (parent)
     {
-        assert(parent->children[parent_index].load() == nullptr);
+        assert(parent->children[parent_index] == nullptr);
         T* t = static_cast<T*>(this);
         if (T::hasSingletons()) {
             if (this->type == Interval::EMPTY) {
@@ -114,7 +115,7 @@ bool XTree<N, T, L>::done()
                 out = true;
             }
         }
-        parent->children[parent_index].store(t, std::memory_order_relaxed);
+        parent->children[parent_index]=t;
     }
     return out;
 }

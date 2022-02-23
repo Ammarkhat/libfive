@@ -9,7 +9,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #pragma once
 
 #include <array>
-#include <atomic>
+
 
 #include "libfive/render/brep/neighbors.hpp"
 #include "libfive/render/brep/neighbor_tables.hpp"
@@ -68,7 +68,7 @@ public:
                 auto n = this->neighbors[t.first.i];
                 if (n != nullptr && n->isBranch()) {
                     while (n->isBranch()) {
-                        n = n->children[t.second.i].load();
+                        n = n->children[t.second.i];
                         assert(n != nullptr);
                     }
                     if (n->leaf != nullptr) {

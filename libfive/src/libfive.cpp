@@ -432,7 +432,7 @@ libfive_pixels* libfive_tree_render_pixels(libfive_tree tree, libfive_region2 R,
 {
     Voxels v({R.X.lower, R.Y.lower, z},
              {R.X.upper, R.Y.upper, z}, res);
-    std::atomic_bool abort(false);
+    bool abort(false);
     auto h = Heightmap::render(Tree(tree), v, abort);
 
     libfive_pixels* out = new libfive_pixels;

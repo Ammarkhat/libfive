@@ -54,22 +54,14 @@ protected:
         }
         unsigned weight;
         uint64_t total;
-        std::atomic<uint64_t> counter;
+        uint64_t counter;
     };
     std::list<Phase> phases;
     std::list<Phase>::iterator current_phase;
     unsigned total_weight;
 
     /*  Flag used to stop the progress thread in the destructor */
-    std::atomic_bool done;
-
-    /*  Used to stop the worker thread early, since it otherwise only
-     *  updates at a fixed speed (e.g. 200 Hz). */
-    std::timed_mutex timed_mut;
-    std::mutex phase_mut;
-
-    /*  This is our async update thread */
-    std::future<void> future;
+    bool done;
 };
 
 }   // namespace libfive

@@ -9,7 +9,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #pragma once
 
 #include <array>
-#include <atomic>
+
 #include <memory>
 
 #include "libfive/render/brep/dc/intersection.hpp"

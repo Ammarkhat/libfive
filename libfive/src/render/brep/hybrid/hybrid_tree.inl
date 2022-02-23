@@ -863,7 +863,7 @@ void HybridTree<N>::assignIndices(const BRepSettings& settings) const
         // subtree as a new task.
         if (task->target->isBranch()) {
             for (unsigned i=0; i < task->target->children.size(); ++i) {
-                const auto child = task->target->children[i].load();
+                const auto child = task->target->children[i];
                 auto next = std::make_shared<AssignIndexTask<N>>();
                 next->target = child;
                 next->neighbors = task->neighbors.push(i, task->target->children);

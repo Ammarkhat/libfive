@@ -193,10 +193,10 @@ void Heightmap::fill(Evaluator* e, const Tape::Handle& tape,
 * Returns true if finished, false if aborted
 */
 bool Heightmap::recurse(Evaluator* e, const Tape::Handle& tape,
-                        const Voxels::View& r, const std::atomic_bool& abort)
+                        const Voxels::View& r, const bool& abort)
 {
     // Stop rendering if the abort flag is set
-    if (abort.load())
+    if (abort)
     {
         return false;
     }
@@ -254,7 +254,7 @@ Heightmap::Heightmap(unsigned rows, unsigned cols)
 }
 
 std::unique_ptr<Heightmap> Heightmap::render(
-    const Tree& t_, Voxels r, const std::atomic_bool& abort,
+    const Tree& t_, Voxels r, const bool& abort,
     size_t workers)
 {
     std::vector<Evaluator*> es;
@@ -275,7 +275,7 @@ std::unique_ptr<Heightmap> Heightmap::render(
 
 std::unique_ptr<Heightmap> Heightmap::render(
         const std::vector<Evaluator*>& es, Voxels r,
-        const std::atomic_bool& abort)
+        const bool& abort)
 {
     auto out = new Heightmap(r.pts[1].size(), r.pts[0].size());
 

@@ -62,7 +62,7 @@ extern "C" char* get_mesh(unsigned long* size)
 }
 
 
-extern "C" void get_mesh_no_return(){
+extern "C" int get_mesh_no_return(){
   
     double r1 = 1;
     double r2 = 1;
@@ -92,4 +92,5 @@ extern "C" void get_mesh_no_return(){
     MeshStr m;
     m.faces = mesh->getFaces();
     m.vertices = mesh->getVertices();
+    return m.vertices.size();
 }

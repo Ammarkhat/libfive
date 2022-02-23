@@ -106,9 +106,12 @@ else()
 
     if (UNIX AND NOT(APPLE))
         find_package(Threads REQUIRED)
-        set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
     endif(UNIX AND NOT(APPLE))
 endif()
+
+if (UNIX AND NOT(APPLE))
+    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
+endif(UNIX AND NOT(APPLE))
 
 # Both Windows and Linux will attempt to build the Studio UI
 if (BUILD_STUDIO_APP)

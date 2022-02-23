@@ -381,7 +381,7 @@ void Dual<N>::run(V& v,
 
     // If we've broken out of the loop, then we should set the done flag
     // so that other worker threads also terminate.
-    done.store(true);
+    done =true;
 }
 
 }   // namespace libfive

@@ -38,7 +38,7 @@ git clone https://github.com/msgpack/msgpack-c
 
 ## using emscripten
 emcmake cmake ..
-emmake make -j8
+emmake make -j4
 emcc libfive/src/libfive.a -o libfive.html
 
 emcc libfive/src/libfive.a -o libfive.html -Os \
@@ -47,7 +47,7 @@ emcc libfive/src/libfive.a -o libfive.html -Os \
       -s ASSERTIONS=1 \
       -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "setValue", "getValue"]' \
       -s ALLOW_MEMORY_GROWTH=1 \
-      -s EXPORTED_FUNCTIONS="['_malloc', '_get_mesh', '_free']"
+      -s EXPORTED_FUNCTIONS="['_malloc', '_get_mesh', '_get_mesh_no_return', '_free']"
 
 # for debugging
 on the cmake level:

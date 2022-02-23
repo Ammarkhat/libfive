@@ -75,7 +75,7 @@ public:
     L* leaf;
 
     /*  Marks whether this tree is fully constructed */
-    mutable uint pending;
+    mutable unsigned int pending;
 
 protected:
     /*

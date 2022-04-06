@@ -46,7 +46,6 @@ add_library(libfive SHARED
     oracle/transformed_oracle.cpp
     oracle/transformed_oracle_clause.cpp
 
-    libfive.cpp
 )
 
 ################################################################################
@@ -82,13 +81,6 @@ else()
     string(STRIP "${GIT_BRANCH}" GIT_BRANCH)
 endif()
 
-set_property(
-    SOURCE libfive.cpp
-    APPEND PROPERTY COMPILE_DEFINITIONS
-    GIT_TAG="${GIT_TAG}"
-    GIT_REV="${GIT_REV}${GIT_DIFF}"
-    GIT_BRANCH="${GIT_BRANCH}"
-)
 
 ################################################################################
 # Produce a library named 'libfive' on all platforms
@@ -111,7 +103,6 @@ endif(UNIX AND NOT(APPLE))
 
 if (UNIX)
     install(TARGETS libfive DESTINATION lib)
-    install(FILES ../include/libfive.h DESTINATION include)
     install(DIRECTORY ../include/libfive DESTINATION include
             FILES_MATCHING PATTERN "*.hpp")
 endif(UNIX)

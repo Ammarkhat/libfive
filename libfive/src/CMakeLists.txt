@@ -21,6 +21,16 @@ add_library(libfive SHARED
 
     render/brep/dc/marching.cpp
     render/brep/dc/dc_mesher.cpp
+    render/brep/dc/dc_neighbors2.cpp
+    render/brep/dc/dc_neighbors3.cpp
+    render/brep/dc/dc_worker_pool2.cpp
+    render/brep/dc/dc_worker_pool3.cpp
+    render/brep/dc/dc_tree2.cpp
+    render/brep/dc/dc_tree3.cpp
+    render/brep/dc/dc_xtree2.cpp
+    render/brep/dc/dc_xtree3.cpp
+    render/brep/dc/dc_object_pool2.cpp
+    render/brep/dc/dc_object_pool3.cpp
 
     solve/solver.cpp
 

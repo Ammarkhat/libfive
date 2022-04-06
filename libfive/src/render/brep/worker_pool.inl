@@ -11,7 +11,6 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "libfive/render/brep/free_thread_handler.hpp"
 #include "libfive/render/brep/settings.hpp"
 #include "libfive/render/brep/worker_pool.hpp"
-#include "libfive/render/brep/vol/vol_tree.hpp"
 #include "libfive/eval/evaluator.hpp"
 
 namespace libfive {

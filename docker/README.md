@@ -15,9 +15,9 @@ files will be available in /my_files inside the container
 or if its already mounted, then run docker exec:
 docker exec -it mystifying_newton bash
 
-## copy file from container, ex: "keen_banach"
-docker exec keen_banach pwd
-docker cp keen_banach:/libfive/build/cli/sphere.stl sphere.stl
+## copy file from container, ex: "wonderful_gould"
+docker exec wonderful_gould pwd
+docker cp wonderful_gould:/libfive/build/cli/spheres.stl spheres.stl
 
 # LibFive build libfive
 git clone https://github.com/Ammarkhat/libfive.git

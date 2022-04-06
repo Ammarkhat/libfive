@@ -9,11 +9,8 @@
 #include "libfive/eval/eval_deriv_array.hpp"
 #include "libfive/eval/eval_interval.hpp"
 #include "libfive/render/brep/region.hpp"
-#include "libfive/render/brep/contours.hpp"
 #include "libfive/render/brep/mesh.hpp"
 #include "libfive/render/brep/settings.hpp"
-#include "libfive/render/discrete/voxels.hpp"
-#include "libfive/render/discrete/heightmap.hpp"
 
 int main(int argc, char** argv){
     double r1 = 1;

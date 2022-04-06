@@ -22,14 +22,6 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "libfive/render/brep/dc/dc_worker_pool.hpp"
 #include "libfive/render/brep/dc/dc_mesher.hpp"
 
-// Simplex meshing
-#include "libfive/render/brep/simplex/simplex_worker_pool.hpp"
-#include "libfive/render/brep/simplex/simplex_mesher.hpp"
-
-// Hybrid meshing
-#include "libfive/render/brep/hybrid/hybrid_worker_pool.hpp"
-#include "libfive/render/brep/hybrid/hybrid_mesher.hpp"
-
 namespace libfive {
 
 std::unique_ptr<Mesh> Mesh::render(const Tree& t_, const Region<3>& r,
@@ -71,53 +63,6 @@ std::unique_ptr<Mesh> Mesh::render(
         // TODO: check for early return here again
         t.reset(settings);
     }
-    else if (settings.alg == ISO_SIMPLEX)
-    {
-        if (settings.progress_handler) {
-            // Pool::build, Dual::walk, t->assignIndices, t.reset
-            settings.progress_handler->start({1, 1, 1});
-        }
-        auto t = SimplexWorkerPool<3>::build(es, r, settings);
-
-        if (settings.cancel.load() || t.get() == nullptr) {
-            if (settings.progress_handler) {
-                settings.progress_handler->finish();
-            }
-            return nullptr;
-        }
-
-        t->assignIndices(settings);
-
-        out = Dual<3>::walk_<SimplexMesher>(t, settings,
-                [&](PerThreadBRep<3>& brep, int i) {
-                    return SimplexMesher(brep, &es[i]);
-                });
-        t.reset(settings);
-    }
-    else if (settings.alg == HYBRID)
-    {
-        if (settings.progress_handler) {
-            // Pool::build, Dual::walk, t->assignIndices, t.reset
-            settings.progress_handler->start({1, 1, 1});
-        }
-        auto t = HybridWorkerPool<3>::build(es, r, settings);
-
-        if (settings.cancel.load() || t.get() == nullptr) {
-            if (settings.progress_handler) {
-                settings.progress_handler->finish();
-            }
-            return nullptr;
-        }
-
-        t->assignIndices(settings);
-
-        out = Dual<3>::walk_<HybridMesher>(t, settings,
-                [&](PerThreadBRep<3>& brep, int i) {
-                    return HybridMesher(brep, &es[i]);
-                });
-        t.reset(settings);
-    }
-
     if (settings.progress_handler) {
         settings.progress_handler->finish();
     }

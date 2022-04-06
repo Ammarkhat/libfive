@@ -19,34 +19,10 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "libfive/eval/eval_interval.hpp"
 
 #include "libfive/render/brep/region.hpp"
-#include "libfive/render/brep/contours.hpp"
 #include "libfive/render/brep/mesh.hpp"
 #include "libfive/render/brep/settings.hpp"
 
-#include "libfive/render/discrete/voxels.hpp"
-#include "libfive/render/discrete/heightmap.hpp"
-
 using namespace libfive;
-
-void libfive_contours_delete(libfive_contours* cs)
-{
-    for (unsigned i=0; i < cs->count; ++i)
-    {
-        delete [] cs->cs[i].pts;
-    }
-    delete [] cs->cs;
-    delete cs;
-}
-
-void libfive_contours3_delete(libfive_contours3* cs)
-{
-    for (unsigned i=0; i < cs->count; ++i)
-    {
-        delete [] cs->cs[i].pts;
-    }
-    delete [] cs->cs;
-    delete cs;
-}
 
 void libfive_mesh_delete(libfive_mesh* m)
 {
@@ -228,81 +204,6 @@ void libfive_free_str(char* ptr) {
     free(ptr);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-libfive_contours* libfive_tree_render_slice(libfive_tree tree,
-        libfive_region2 R, float z, float res)
-{
-    Region<2> region({R.X.lower, R.Y.lower}, {R.X.upper, R.Y.upper},
-            Region<2>::Perp(z));
-    BRepSettings settings;
-    settings.min_feature = 1/res;
-    auto cs = Contours::render(Tree(tree), region, settings);
-
-    auto out = new libfive_contours;
-    out->count = cs->contours.size();
-    out->cs = new libfive_contour[out->count];
-
-    size_t i=0;
-    for (auto& c : cs->contours)
-    {
-        out->cs[i].count = c.size();
-        out->cs[i].pts = new libfive_vec2[c.size()];
-
-        size_t j=0;
-        for (auto& pt : c)
-        {
-            out->cs[i].pts[j++] = {pt.x(), pt.y()};
-        }
-        i++;
-    }
-
-    return out;
-}
-
-libfive_contours3* libfive_tree_render_slice3(libfive_tree tree,
-                                              libfive_region2 R, float z, float res)
-{
-    Region<2> region({R.X.lower, R.Y.lower}, {R.X.upper, R.Y.upper},
-            Region<2>::Perp(z));
-    BRepSettings settings;
-    settings.min_feature = 1/res;
-    auto cs = Contours::render(Tree(tree), region, settings);
-
-    auto out = new libfive_contours3;
-    out->count = cs->contours.size();
-    out->cs = new libfive_contour3[out->count];
-
-    size_t i=0;
-    for (auto& c : cs->contours)
-    {
-        out->cs[i].count = c.size();
-        out->cs[i].pts = new libfive_vec3[c.size()];
-
-        size_t j=0;
-        for (auto& pt : c)
-        {
-          // each 2D contour point is converted to a 3D point (with
-          // this function's z argument as the Z coordinate)
-          out->cs[i].pts[j++] = {pt.x(), pt.y(), z};
-        }
-        i++;
-    }
-
-    return out;
-}
-
-void libfive_tree_save_slice(libfive_tree tree, libfive_region2 R, float z, float res,
-                        const char* f)
-{
-    Region<2> region({R.X.lower, R.Y.lower}, {R.X.upper, R.Y.upper},
-            Region<2>::Perp(z));
-    BRepSettings settings;
-    settings.min_feature = 1/res;
-    auto cs = Contours::render(Tree(tree), region, settings);
-    cs->saveSVG(f);
-}
-
 libfive_mesh* libfive_tree_render_mesh(libfive_tree tree, libfive_region3 R, float res)
 {
     Region<3> region({R.X.lower, R.Y.lower, R.Z.lower},
@@ -424,31 +325,6 @@ bool libfive_tree_save_meshes(
     for (auto& m : meshes) {
         delete m;
     }
-    return out;
-}
-
-libfive_pixels* libfive_tree_render_pixels(libfive_tree tree, libfive_region2 R,
-                                 float z, float res)
-{
-    Voxels v({R.X.lower, R.Y.lower, z},
-             {R.X.upper, R.Y.upper, z}, res);
-    std::atomic_bool abort(false);
-    auto h = Heightmap::render(Tree(tree), v, abort);
-
-    libfive_pixels* out = new libfive_pixels;
-    out->width = h->depth.cols();
-    out->height = h->depth.rows();
-    out->pixels = new bool[out->width * out->height];
-
-    size_t i=0;
-    for (unsigned y=0; y < out->height; ++y)
-    {
-        for (unsigned x=0; x < out->width; ++x)
-        {
-            out->pixels[i++] = !std::isinf(h->depth(y, x));
-        }
-    }
-
     return out;
 }
 

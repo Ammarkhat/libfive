@@ -57,42 +57,6 @@ typedef struct libfive_vec4      { float x, y, z, w; } libfive_vec4;
 typedef struct libfive_tri       { uint32_t a, b, c; } libfive_tri;
 
 /*
- *  libfive_contour is a single 2D contour, consisting of a sequence of
- *  2D points plus a count of how many points are stored
- */
-typedef struct libfive_contour {
-    libfive_vec2* pts;
-    uint32_t count;
-} libfive_contour;
-
-/*
- *  libfive_contour is a set of 2D contours, consisting of multiple
- *  libfive_contour objects and a count of how many are stored
- */
-typedef struct libfive_contours {
-    libfive_contour* cs;
-    uint32_t count;
-} libfive_contours;
-
-/*
- *  libfive_contour3 is a single 2D contour, consisting of a sequence of
- *  3D points plus a count of how many points are stored
- */
-typedef struct libfive_contour3 {
-    libfive_vec3* pts;
-    uint32_t count;
-} libfive_contour3;
-
-/*
- *  libfive_contours3 is a set of 2D contours, consisting of multiple
- *  libfive_contour3 objects and a count of how many are stored
- */
-typedef struct libfive_contours3 {
-    libfive_contour3* cs;
-    uint32_t count;
-} libfive_contours3;
-
-/*
  *  libfive_mesh is an indexed 3D mesh.
  *  There are vert_count vertices, and tri_count triangles.
  */
@@ -128,16 +92,6 @@ typedef struct libfive_pixels {
 } libfive_pixels;
 
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
- *  Frees an libfive_contours data structure
- */
-void libfive_contours_delete(libfive_contours* cs);
-
-/*
- *  Frees an libfive_contours data structure
- */
-void libfive_contours3_delete(libfive_contours3* cs);
 
 /*
  *  Frees an libfive_mesh data structure
@@ -311,28 +265,6 @@ char* libfive_tree_print(libfive_tree t);
 void libfive_free_str(char* ptr);
 
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
- *  Renders a tree to a set of contours
- *
- *  R is a region that will be subdivided into an octree.  For clean
- *  triangles, it should be near-cubical, but that isn't a hard requirement
- *
- *  res should be approximately half the model's smallest feature size;
- *  subdivision halts when all sides of the region are below it.
- *
- *  The returned struct must be freed with libfive_contours_delete
- */
-libfive_contours* libfive_tree_render_slice(libfive_tree tree,
-                                            libfive_region2 R,
-                                            float z, float res);
-/*
- *  Renders a tree to a set of contours, similar to libfive_tree_render_slice,
- *  except the contours are 3D points (see the libfive_contour3 struct) above.
- */
-libfive_contours3* libfive_tree_render_slice3(libfive_tree tree,
-                                              libfive_region2 R,
-                                              float z, float res);
 
 /*
  *  Renders and saves a slice to a file

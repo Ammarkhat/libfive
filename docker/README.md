@@ -54,7 +54,13 @@ on the cmake level:
 emcmake cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 on emcc level:
--O0 -g -gsource-map -s ASSERTIONS=1 
+emcc libfive/src/libfive.a -o libfive.html -O0 -g -gsource-map \
+      -s WASM=1 \
+      -s FETCH=1 \
+      -s ASSERTIONS=1 \
+      -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "setValue", "getValue"]' \
+      -s ALLOW_MEMORY_GROWTH=1 \
+      -s EXPORTED_FUNCTIONS="['_malloc', '_get_mesh', '_get_mesh_no_return', '_free']"
 
 
 ## some examples of emcc

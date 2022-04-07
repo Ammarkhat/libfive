@@ -9,7 +9,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #pragma once
 
 #include <array>
-#include <atomic>
+
 #include <iostream>
 #include <stack>
 

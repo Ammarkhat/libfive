@@ -38,7 +38,7 @@ std::pair<const DCTree<N>*, unsigned> DCNeighbors<N>::checkConsistency(
         auto n = this->neighbors[t.first.i];
         if (this->neighbors[t.first.i] != nullptr) {
             while (n->isBranch()) {
-                n = n->children[t.second.i].load();
+                n = n->children[t.second.i];
             }
             if (n->cornerState(t.second.i) != s) {
                 return std::make_pair(n, t.second.i);

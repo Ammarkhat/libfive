@@ -593,7 +593,7 @@ bool DCTree<N>::collectChildren(Evaluator* eval,
     std::array<DCTree<N>*, 1 << N> cs;
     for (unsigned i=0; i < this->children.size(); ++i)
     {
-        cs[i] = this->children[i].load(std::memory_order_relaxed);
+        cs[i] = this->children[i];
     }
 
     // If any children are branches, then we can't collapse.
@@ -974,7 +974,7 @@ bool DCTree<N>::checkConsistency(const DCNeighbors<N>& neighbors) const
     if (this->isBranch()) {
         for (unsigned i=0; i < this->children.size(); ++i) {
             auto next = neighbors.push(i, this->children);
-            if (!this->children[i].load()->checkConsistency(next)) {
+            if (!this->children[i]->checkConsistency(next)) {
                 return false;
             }
         }

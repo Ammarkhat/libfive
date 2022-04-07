@@ -50,7 +50,7 @@ std::unique_ptr<Mesh> Mesh::render(
         }
         auto t = DCWorkerPool<3>::build(es, r, settings);
 
-        if (settings.cancel.load() || t.get() == nullptr) {
+        if (settings.cancel || t.get() == nullptr) {
             if (settings.progress_handler) {
                 settings.progress_handler->finish();
             }
@@ -63,6 +63,7 @@ std::unique_ptr<Mesh> Mesh::render(
         // TODO: check for early return here again
         t.reset(settings);
     }
+
     if (settings.progress_handler) {
         settings.progress_handler->finish();
     }
@@ -141,6 +142,25 @@ bool Mesh::saveSTL(const std::string& filename,
 bool Mesh::saveSTL(const std::string& filename) const
 {
     return saveSTL(filename, {this});
+}
+
+std::vector<int> Mesh::getFaces(){
+    std::vector<int> faces;
+    for(auto& t : branes){
+        faces.push_back(t[0]);
+        faces.push_back(t[1]);
+        faces.push_back(t[2]);
+    }
+    return faces;
+}
+std::vector<float> Mesh::getVertices(){
+    std::vector<float> verts;
+    for(auto& v : this->verts){
+        verts.push_back(v.x());
+        verts.push_back(v.y());
+        verts.push_back(v.z());
+    }
+    return verts;
 }
 
 }   // namespace libfive

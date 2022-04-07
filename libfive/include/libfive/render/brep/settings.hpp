@@ -8,7 +8,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 #pragma once
 
-#include <atomic>
+
 #include <memory>
 
 namespace libfive {
@@ -36,7 +36,7 @@ public:
         alg = DUAL_CONTOURING;
         free_thread_handler = nullptr;
         progress_handler = nullptr;
-        cancel.store(false);
+        cancel= false;
         vol = nullptr;
     }
 
@@ -68,7 +68,7 @@ public:
     /*  Optional acceleration structure */
     const VolTree* vol;
 
-    mutable std::atomic_bool cancel;
+    mutable bool cancel;
 };
 
 }

@@ -1,0 +1,23 @@
+FROM ubuntu:20.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git \
+    cmake \
+    pkg-config \
+    libeigen3-dev \
+    libpng-dev \
+    libboost-all-dev \
+    build-essential
+
+RUN git clone https://github.com/libfive/libfive.git
+WORKDIR libfive
+
+RUN ( \
+    pwd \
+    mkdir build \
+    cd build \
+    cmake .. \
+    make -j4 \
+)

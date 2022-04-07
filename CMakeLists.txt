@@ -4,10 +4,6 @@ project(libfive)
 # Properly distinguish between Apple and upstream Clang
 cmake_policy(SET CMP0025 NEW)
 
-option(BUILD_STUDIO_APP "Build Studio application" ON)
-option(BUILD_GUILE_BINDINGS "Build Guile bindings" ON)
-option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
-
 option(LIBFIVE_PACKED_OPCODES
     "Tightly pack opcodes (breaks compatibility with older saved f-reps)"
     OFF)
@@ -95,73 +91,10 @@ find_package(PNG REQUIRED)
 find_package(Python3 COMPONENTS Interpreter Development)
 
 # Both Windows and Linux will attempt to build the Studio UI
-if (BUILD_STUDIO_APP)
-    find_package(Qt5Core 5.12)
-endif()
-
 if (UNIX AND NOT(APPLE))
     find_package(Threads REQUIRED)
     set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
 endif(UNIX AND NOT(APPLE))
-
-################################################################################
-# Inform the user which subsystems will be built and any missing deps
-message("Checking dependencies:")
-message("  libfive:		✓")
-
-if (BUILD_GUILE_BINDINGS)
-  if (GUILE_FOUND)
-    message("  Guile bindings:	✓")
-  else ()
-    message("  Guile bindings:	✘   (needs Guile 2.2 or later)")
-  endif()
-else()
-    message("  Guile bindings:	✘   (skipping)")
-endif()
-
-if (BUILD_PYTHON_BINDINGS)
-  if (Python3_FOUND)
-    message("  Python bindings:	✓")
-  else()
-    message("  Python bindings:	✘   (Python 3 not found)")
-  endif()
-else()
-  message("  Python bindings:	✘   (skipping)")
-endif()
-
-if (BUILD_STUDIO_APP)
-  if (GUILE_FOUND AND BUILD_GUILE_BINDINGS)
-    set(STUDIO_WITH_GUILE ON)
-  else()
-    set(STUDIO_WITH_GUILE OFF)
-  endif()
-
-  if (Python3_FOUND AND BUILD_PYTHON_BINDINGS)
-    set(STUDIO_WITH_PYTHON ON)
-  else()
-    set(STUDIO_WITH_PYTHON OFF)
-  endif()
-
-  if (Qt5Core_FOUND AND STUDIO_WITH_GUILE AND STUDIO_WITH_PYTHON)
-    message("  Studio:		✓   (Python + Guile)")
-  elseif (Qt5Core_FOUND AND STUDIO_WITH_GUILE)
-    message("  Studio:		✓   (Guile only)")
-  elseif (Qt5Core_FOUND AND STUDIO_WITH_PYTHON)
-    message("  Studio:		✓   (Python only)")
-  else ()
-    if (Qt5Core_FOUND)
-      message("  Studio:		✘   (needs Guile or Python)")
-    elseif (STUDIO_WITH_GUILE OR STUDIO_WITH_PYTHON)
-      message("  Studio:		✘   (needs Qt 5.12 or later)")
-    else()
-      message("  Studio:		✘   (needs Qt 5.12 or later, and Guile or Python")
-    endif()
-  endif()
-else()
-    message("  Studio:		✘   (skipping)")
-endif()
-
-################################################################################
 
 # Set a flag to detect the case where users run CMake in the wrong directory
 set(LIBFIVE_BUILD_FROM_ROOT true)
@@ -169,6 +102,4 @@ set(LIBFIVE_BUILD_FROM_ROOT true)
 # Always build the kernel and test suite
 add_subdirectory(libfive)
 
-if(BUILD_STUDIO_APP AND (STUDIO_WITH_GUILE OR STUDIO_WITH_PYTHON) AND Qt5Core_FOUND)
-    add_subdirectory(studio)
-endif(BUILD_STUDIO_APP AND (STUDIO_WITH_GUILE OR STUDIO_WITH_PYTHON) AND Qt5Core_FOUND)
+add_subdirectory(cli)

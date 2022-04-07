@@ -19,9 +19,7 @@ class FreeThreadHandler;
 class VolTree;
 
 enum BRepAlgorithm {
-    DUAL_CONTOURING,
-    ISO_SIMPLEX,
-    HYBRID,
+    DUAL_CONTOURING
 };
 
 struct BRepSettings {

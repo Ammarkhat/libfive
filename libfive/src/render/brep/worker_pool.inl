@@ -11,7 +11,6 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "libfive/render/brep/free_thread_handler.hpp"
 #include "libfive/render/brep/settings.hpp"
 #include "libfive/render/brep/worker_pool.hpp"
-#include "libfive/render/brep/vol/vol_tree.hpp"
 #include "libfive/eval/evaluator.hpp"
 
 namespace libfive {
@@ -36,15 +35,11 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
         Evaluator* eval, const Region<N>& region_,
         const BRepSettings& settings)
 {
-    if (settings.vol && !settings.vol->contains(region_)) {
-        std::cerr << "WorkerPool::build: Invalid region for vol tree\n";
-    }
-
     const auto region = region_.withResolution(settings.min_feature);
     auto root(new T(nullptr, 0, region));
 
     LockFreeStack tasks(settings.workers);
-    tasks.push({root, eval->getDeck()->tape, Neighbors(), settings.vol});
+    tasks.push({root, eval->getDeck()->tape, Neighbors()});
 
     std::vector<std::future<void>> futures;
     futures.resize(settings.workers);
@@ -146,12 +141,6 @@ void WorkerPool<T, Neighbors, N>::run(
         if (can_subdivide)
         {
             Tape::Handle next_tape;
-            if (task.vol) {
-                auto i = task.vol->check(t->region);
-                if (i == Interval::EMPTY || i == Interval::FILLED) {
-                    t->setType(i);
-                }
-            }
             if (t->type == Interval::UNKNOWN) {
                 next_tape = t->evalInterval(eval, task.tape, object_pool);
             }
@@ -172,9 +161,7 @@ void WorkerPool<T, Neighbors, N>::run(
                     // to the queue; otherwise, undo the decrement and
                     // assign it to be evaluated locally.
                     auto next_tree = object_pool.get(t, i, rs[i]);
-                    auto next_vol = task.vol ? task.vol->push(i, rs[i].perp)
-                                             : nullptr;
-                    Task next{next_tree, tape, neighbors, next_vol};
+                    Task next{next_tree, tape, neighbors};
                     if (!tasks.bounded_push(next))
                     {
                         local.push(next);

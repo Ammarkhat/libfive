@@ -13,10 +13,6 @@ add_library(libfive SHARED
     eval/tape.cpp
     eval/feature.cpp
 
-    render/discrete/heightmap.cpp
-    render/discrete/voxels.cpp
-
-    render/brep/contours.cpp
     render/brep/edge_tables.cpp
     render/brep/manifold_tables.cpp
     render/brep/mesh.cpp
@@ -24,7 +20,6 @@ add_library(libfive SHARED
     render/brep/progress.cpp
 
     render/brep/dc/marching.cpp
-    render/brep/dc/dc_contourer.cpp
     render/brep/dc/dc_mesher.cpp
     render/brep/dc/dc_neighbors2.cpp
     render/brep/dc/dc_neighbors3.cpp
@@ -36,37 +31,6 @@ add_library(libfive SHARED
     render/brep/dc/dc_xtree3.cpp
     render/brep/dc/dc_object_pool2.cpp
     render/brep/dc/dc_object_pool3.cpp
-
-    render/brep/hybrid/hybrid_debug.cpp
-    render/brep/hybrid/hybrid_worker_pool2.cpp
-    render/brep/hybrid/hybrid_worker_pool3.cpp
-    render/brep/hybrid/hybrid_neighbors2.cpp
-    render/brep/hybrid/hybrid_neighbors3.cpp
-    render/brep/hybrid/hybrid_tree2.cpp
-    render/brep/hybrid/hybrid_tree3.cpp
-    render/brep/hybrid/hybrid_xtree2.cpp
-    render/brep/hybrid/hybrid_xtree3.cpp
-    render/brep/hybrid/hybrid_object_pool2.cpp
-    render/brep/hybrid/hybrid_object_pool3.cpp
-    render/brep/hybrid/hybrid_mesher.cpp
-
-    render/brep/simplex/simplex_debug.cpp
-    render/brep/simplex/simplex_neighbors2.cpp
-    render/brep/simplex/simplex_neighbors3.cpp
-    render/brep/simplex/simplex_worker_pool2.cpp
-    render/brep/simplex/simplex_worker_pool3.cpp
-    render/brep/simplex/simplex_tree2.cpp
-    render/brep/simplex/simplex_tree3.cpp
-    render/brep/simplex/simplex_xtree2.cpp
-    render/brep/simplex/simplex_xtree3.cpp
-    render/brep/simplex/simplex_object_pool2.cpp
-    render/brep/simplex/simplex_object_pool3.cpp
-    render/brep/simplex/simplex_mesher.cpp
-
-    render/brep/vol/vol_neighbors.cpp
-    render/brep/vol/vol_object_pool.cpp
-    render/brep/vol/vol_tree.cpp
-    render/brep/vol/vol_worker_pool.cpp
 
     solve/solver.cpp
 
@@ -82,7 +46,6 @@ add_library(libfive SHARED
     oracle/transformed_oracle.cpp
     oracle/transformed_oracle_clause.cpp
 
-    libfive.cpp
 )
 
 ################################################################################
@@ -118,13 +81,6 @@ else()
     string(STRIP "${GIT_BRANCH}" GIT_BRANCH)
 endif()
 
-set_property(
-    SOURCE libfive.cpp
-    APPEND PROPERTY COMPILE_DEFINITIONS
-    GIT_TAG="${GIT_TAG}"
-    GIT_REV="${GIT_REV}${GIT_DIFF}"
-    GIT_BRANCH="${GIT_BRANCH}"
-)
 
 ################################################################################
 # Produce a library named 'libfive' on all platforms
@@ -147,7 +103,6 @@ endif(UNIX AND NOT(APPLE))
 
 if (UNIX)
     install(TARGETS libfive DESTINATION lib)
-    install(FILES ../include/libfive.h DESTINATION include)
     install(DIRECTORY ../include/libfive DESTINATION include
             FILES_MATCHING PATTERN "*.hpp")
 endif(UNIX)

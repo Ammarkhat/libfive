@@ -52,7 +52,6 @@ int main(int argc, char** argv){
 
     // Mesh::render returns a unique_ptr, so it cleans up automatically
     libfive::BRepSettings settings;
-    settings.workers = 1;
     libfive::Mesh::render(out, bounds, settings)->saveSTL("spheres.stl");
 
     return 0;

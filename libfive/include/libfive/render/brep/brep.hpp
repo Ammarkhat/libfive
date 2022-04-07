@@ -45,18 +45,11 @@ public:
      *  the same atomic index, so that their indices are globally
      *  unique and completely fill the range starting from 1.
      *
-     *  If workers is 0, spins up one thread per child, otherwise spins
-     *  up the requested number of threads to do the merge in parallel.
      */
-    void collect(const std::vector<PerThreadBRep<N>>& children,
-                 unsigned workers=0)
+    void collect(const std::vector<PerThreadBRep<N>>& children)
     {
         assert(verts.size() == 1);
         assert(branes.size() == 0);
-
-        if (workers == 0) {
-            workers = children.size();
-        }
 
         // Build big enough vectors to hold everything, since we're going
         // to be dropping items in through multiple threads.
@@ -69,28 +62,26 @@ public:
         verts.resize(num_verts);
         branes.resize(num_branes);
 
-        for (unsigned i=0; i < workers; ++i) {
-            for (unsigned j=i; j < children.size(); j += workers) {
-                const auto& c = children[j];
+        for (unsigned j=i; j < children.size(); j++) {
+            const auto& c = children[j];
 
-                // Unpack vertices, which all have unique indexes into
-                // our collecting vertex array.
-                for (unsigned k=0; k < c.indices.size(); ++k) {
-                    verts.at(c.indices.at(k)) = c.verts.at(k);
-                }
+            // Unpack vertices, which all have unique indexes into
+            // our collecting vertex array.
+            for (unsigned k=0; k < c.indices.size(); ++k) {
+                verts.at(c.indices.at(k)) = c.verts.at(k);
+            }
 
-                // Figure out where to position the branes in the
-                // collecting branes array, using a simple offset
-                // from the start.
-                size_t offset = 0;
-                for (unsigned k=0; k < j; ++k) {
-                    offset += children[k].branes.size();
-                }
+            // Figure out where to position the branes in the
+            // collecting branes array, using a simple offset
+            // from the start.
+            size_t offset = 0;
+            for (unsigned k=0; k < j; ++k) {
+                offset += children[k].branes.size();
+            }
 
-                // Then save all of the branes
-                for (unsigned k=0; k < c.branes.size(); ++k) {
-                    branes[offset + k] = c.branes[k];
-                }
+            // Then save all of the branes
+            for (unsigned k=0; k < c.branes.size(); ++k) {
+                branes[offset + k] = c.branes[k];
             }
         }
     }

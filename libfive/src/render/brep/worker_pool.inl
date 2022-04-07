@@ -63,7 +63,7 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
         
         //        [&eval, &tasks, &out, &root_lock, &settings, &done, i](){
                     run(eval + i, tasks, out, root_lock, settings, done);
-        );
+        //);
     }
 
     

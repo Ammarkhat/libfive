@@ -254,38 +254,21 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
 {
     boost::lockfree::stack<
         const typename M::Input*,
-        boost::lockfree::fixed_sized<true>> tasks(settings.workers);
+        boost::lockfree::fixed_sized<true>> tasks(1);//TODO remove it 
     tasks.push(t.get());
     t->resetPending();
 
     uint32_t global_index(1);
-    std::vector<PerThreadBRep<N>> breps;
-    for (unsigned i=0; i < settings.workers; ++i) {
-        breps.emplace_back(PerThreadBRep<N>(global_index));
-    }
+    PerThreadBRep<N> brep = PerThreadBRep<N>(global_index);
 
     if (settings.progress_handler) {
         settings.progress_handler->nextPhase(t.size() + 1);
     }
 
-    
-    
     bool done(false);
-    for (unsigned i=0; i < settings.workers; ++i) {
-        
-        //    [&breps, &tasks, &MesherFactory, &settings, &done, i]()
-        //    {
-                auto m = MesherFactory(breps[i], i);
-                Dual<N>::run(m, tasks, settings, done);
-        // );
-    }
-
-    
-    
-    
-    
-
-    
+   
+    auto m = MesherFactory(brep, 0);
+    Dual<N>::run(m, tasks, settings, done);
 
     // Handle the top tree edges (only used for simplex meshing)
     if (M::needsTopEdges()) {

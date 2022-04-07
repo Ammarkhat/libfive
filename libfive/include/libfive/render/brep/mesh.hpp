@@ -54,6 +54,9 @@ public:
     static bool saveSTL(const std::string& filename,
                         const std::list<const Mesh*>& meshes);
 
+    std::vector<int> getFaces();
+    std::vector<float> getVertices();
+
 protected:
 
     /*

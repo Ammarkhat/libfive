@@ -69,12 +69,12 @@ public:
         verts.resize(num_verts);
         branes.resize(num_branes);
 
-        std::vector<std::future<void>> futures;
-        futures.resize(workers);
+        // std::vector<std::future<void>> futures;
+        // futures.resize(workers);
 
         for (unsigned i=0; i < workers; ++i) {
-            futures[i] = std::async(std::launch::async,
-                [i, workers, this, &children]() {
+            //futures[i] = std::async(std::launch::async,
+            //    [i, workers, this, &children]() {
                     for (unsigned j=i; j < children.size(); j += workers) {
                         const auto& c = children[j];
 
@@ -97,13 +97,13 @@ public:
                             branes[offset + k] = c.branes[k];
                         }
                     }
-                }
-            );
+                // }
+            // );
         }
 
-        for (auto& f : futures) {
-            f.wait();
-        }
+        // for (auto& f : futures) {
+        //     f.wait();
+        // }
     }
 };
 

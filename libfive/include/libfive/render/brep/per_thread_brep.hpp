@@ -8,7 +8,7 @@ You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 #pragma once
 
-#include <atomic>
+
 
 #include <Eigen/Eigen>
 #include <Eigen/StdVector>
@@ -25,13 +25,14 @@ template <unsigned N>
 class PerThreadBRep
 {
 public:
-    PerThreadBRep(std::atomic<uint32_t>& c) : c(c)
+    PerThreadBRep(uint32_t& c) : c(c)
     {
-        assert(c.load() == 1);
+        assert(c == 1);
     }
 
     uint32_t pushVertex(const Eigen::Matrix<float, N, 1>& v) {
-        const auto out = c.fetch_add(1);
+        const auto out = c;
+        c+=1;
         this->verts.push_back(v);
         indices.push_back(out);
         return out;
@@ -59,7 +60,7 @@ public:
     std::vector<uint32_t> indices;
 
 protected:
-    std::atomic<uint32_t>& c;
+    uint32_t& c;
 };
 
 }   // namespace libfive

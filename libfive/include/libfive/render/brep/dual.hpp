@@ -68,7 +68,7 @@ protected:
                     boost::lockfree::stack<const T*,
                                            boost::lockfree::fixed_sized<true>>& tasks,
                     const BRepSettings& settings,
-                    std::atomic_bool& done);
+                    bool& done);
 
     template <typename T, typename Mesher>
     static void work(const T* t, Mesher& m);
@@ -258,7 +258,7 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
     tasks.push(t.get());
     t->resetPending();
 
-    std::atomic<uint32_t> global_index(1);
+    uint32_t global_index(1);
     std::vector<PerThreadBRep<N>> breps;
     for (unsigned i=0; i < settings.workers; ++i) {
         breps.emplace_back(PerThreadBRep<N>(global_index));
@@ -268,24 +268,24 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
         settings.progress_handler->nextPhase(t.size() + 1);
     }
 
-    std::vector<std::future<void>> futures;
-    futures.resize(settings.workers);
-    std::atomic_bool done(false);
+    //std::vector<std::future<void>> futures;
+    //futures.resize(settings.workers);
+    bool done(false);
     for (unsigned i=0; i < settings.workers; ++i) {
-        futures[i] = std::async(std::launch::async,
-            [&breps, &tasks, &MesherFactory, &settings, &done, i]()
-            {
+        //futures[i] = std::async(std::launch::async,
+        //    [&breps, &tasks, &MesherFactory, &settings, &done, i]()
+        //    {
                 auto m = MesherFactory(breps[i], i);
                 Dual<N>::run(m, tasks, settings, done);
-            });
+        //    });
     }
 
     // Wait on all of the futures
-    for (auto& f : futures) {
-        f.get();
-    }
+    // for (auto& f : futures) {
+    //     f.get();
+    // }
 
-    assert(done.load() || settings.cancel.load());
+    //assert(done || settings.cancel);
 
     // Handle the top tree edges (only used for simplex meshing)
     if (M::needsTopEdges()) {
@@ -305,14 +305,14 @@ void Dual<N>::run(V& v,
                   boost::lockfree::stack<const T*,
                                          boost::lockfree::fixed_sized<true>>& tasks,
                   const BRepSettings& settings,
-                  std::atomic_bool& done)
+                  bool& done)
 
 {
     // Tasks to be evaluated by this thread (populated when the
     // MPMC stack is completely full).
     std::stack<const T*, std::vector<const T*>> local;
 
-    while (!done.load() && !settings.cancel.load())
+    while (!done && !settings.cancel)
     {
         // Prioritize picking up a local task before going to
         // the MPMC queue, to keep things in this thread for
@@ -343,7 +343,7 @@ void Dual<N>::run(V& v,
             // Recurse, calling the cell procedure for every child
             for (const auto& c_ : t->children)
             {
-                const auto c = c_.load();
+                const auto c = c_;
                 if (!tasks.bounded_push(c)) {
                     local.push(c);
                 }
@@ -381,7 +381,7 @@ void Dual<N>::run(V& v,
 
     // If we've broken out of the loop, then we should set the done flag
     // so that other worker threads also terminate.
-    done.store(true);
+    done =true;
 }
 
 }   // namespace libfive

@@ -7,7 +7,7 @@ This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this file,
 You can obtain one at http://mozilla.org/MPL/2.0/.
 */
-#include <atomic>
+
 
 #include "libfive/tree/tree.hpp"
 #include "libfive/tree/key.hpp"
@@ -135,7 +135,7 @@ struct TreeData : public TreeDataVariant
     using Key = TreeDataKey;
     Key key() const;
 
-    mutable std::atomic_uint32_t refcount = 0;
+    mutable uint32_t refcount = 0;
 
     // Flags are accumulated up through the tree, and used to do things
     // like lazily flattening remap operations when needed.

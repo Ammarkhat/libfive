@@ -272,11 +272,13 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
 
     // Handle the top tree edges (only used for simplex meshing)
     if (M::needsTopEdges()) {
-        auto m = MesherFactory(breps[0], 0);
+        auto m = MesherFactory(brep, 0);
         Dual<N>::handleTopEdges(t.get(), m);
     }
 
     auto out = std::make_unique<typename M::Output>();
+    std::vector<PerThreadBRep<N>> breps;
+    breps.push_back(prep);
     out->collect(breps);
     return out;
 }

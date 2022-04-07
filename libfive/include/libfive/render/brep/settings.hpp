@@ -32,7 +32,7 @@ public:
     void reset() {
         min_feature = 0.1;
         max_err = 1e-8;
-        workers = 8;
+        workers = 1;
         alg = DUAL_CONTOURING;
         free_thread_handler = nullptr;
         progress_handler = nullptr;

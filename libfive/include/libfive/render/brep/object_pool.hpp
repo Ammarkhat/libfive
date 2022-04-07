@@ -77,7 +77,7 @@ public:
      *
      *  (this is the same as the destructor, but includes a progress callback)
      */
-    void reset(unsigned workers=8,
+    void reset(unsigned workers=1,
                ProgressHandler* progress_watcher=nullptr);
 
 private:

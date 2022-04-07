@@ -160,7 +160,7 @@ void ObjectPool<T, Ts...>::reset(unsigned workers,
                 }
                 T::operator delete [](fresh_blocks[j].first);
             }
-        );
+        // );
     }
 
     

@@ -22,11 +22,10 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
 {
     // Build evaluators for the pool
     const auto t = t_.optimized();
+    //TODO: we only need one evaluator instead of array
     std::vector<Evaluator, Eigen::aligned_allocator<Evaluator>> es;
-    es.reserve(settings.workers);
-    for (unsigned i=0; i < settings.workers; ++i) {
-        es.emplace_back(Evaluator(t));
-    }
+    es.reserve(1);
+    es.emplace_back(Evaluator(t));
     return build(es.data(), region_, settings);
 }
 
@@ -38,11 +37,12 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
     const auto region = region_.withResolution(settings.min_feature);
     auto root(new T(nullptr, 0, region));
 
-    LockFreeStack tasks(settings.workers);
+    //TODO: only one task is needed
+    LockFreeStack tasks(1);
     tasks.push({root, eval->getDeck()->tape, Neighbors()});
 
     std::vector<std::future<void>> futures;
-    futures.resize(settings.workers);
+    futures.resize(1);
 
     Root<T> out(root);
     std::mutex root_lock;
@@ -58,13 +58,10 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
     }
 
     bool done(false);
-    for (unsigned i=0; i < settings.workers; ++i)
-    {
         
         //        [&eval, &tasks, &out, &root_lock, &settings, &done, i](){
-                    run(eval + i, tasks, out, root_lock, settings, done);
+                    run(eval, tasks, out, root_lock, settings, done);
         //);
-    }
 
     
     

@@ -27,13 +27,11 @@ namespace libfive {
 std::unique_ptr<Mesh> Mesh::render(const Tree& t_, const Region<3>& r,
                                    const BRepSettings& settings)
 {
+    //TODO: we only need one evaluator instead of array
     std::vector<Evaluator, Eigen::aligned_allocator<Evaluator>> es;
-    es.reserve(settings.workers);
+    es.reserve(1);
     const auto t = t_.optimized();
-    for (unsigned i=0; i < settings.workers; ++i) {
-        es.emplace_back(Evaluator(t));
-    }
-
+    es.emplace_back(Evaluator(t));
     return render(es.data(), r, settings);
 }
 

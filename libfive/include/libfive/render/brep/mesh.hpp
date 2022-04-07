@@ -34,7 +34,7 @@ public:
 
     /*
      *  Render function that re-uses evaluators
-     *  es must be a pointer to at least [settings.workers] Evaluators
+     *  es must be a pointer to at least 1 Evaluators
      *
      *  Returns nullptr if min_feature is invalid or cancel is set to true
      *  partway through the computation.

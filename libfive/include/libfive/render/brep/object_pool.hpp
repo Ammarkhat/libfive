@@ -36,7 +36,7 @@ class ObjectPool
 {
 public:
     void claim(ObjectPool<>&) {}
-    void reset(unsigned, ProgressHandler*) {}
+    void reset(ProgressHandler*) {}
     int64_t num_blocks() const { return 0; }
     ObjectPool<>& operator=(ObjectPool<>&&) { return *this; }
 };
@@ -77,8 +77,7 @@ public:
      *
      *  (this is the same as the destructor, but includes a progress callback)
      */
-    void reset(unsigned workers=1,
-               ProgressHandler* progress_watcher=nullptr);
+    void reset(ProgressHandler* progress_watcher=nullptr);
 
 private:
     /*  Each fresh_block is a pointer to the start of the block,

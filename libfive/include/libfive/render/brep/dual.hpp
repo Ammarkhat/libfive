@@ -54,7 +54,7 @@ public:
       *     Output (typename)
       *
       *  The factory can be anything that spits out valid M objects,
-      *  given a PerThreadBRep and worker index.
+      *  given a PerThreadBRep.
       */
     template<typename M>
     static std::unique_ptr<typename M::Output> walk_(

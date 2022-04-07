@@ -39,7 +39,7 @@ public:
         if (settings.progress_handler) {
             settings.progress_handler->nextPhase(object_pool.num_blocks());
         }
-        object_pool.reset(settings.workers, settings.progress_handler);
+        object_pool.reset(settings.progress_handler);
     }
 
     const T* operator->() const { return ptr; }

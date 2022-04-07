@@ -32,7 +32,6 @@ public:
     void reset() {
         min_feature = 0.1;
         max_err = 1e-8;
-        workers = 1;
         alg = DUAL_CONTOURING;
         free_thread_handler = nullptr;
         progress_handler = nullptr;
@@ -49,10 +48,6 @@ public:
      *  is very small, then only linear regions are merged.  Set as -1 to
      *  completely disable cell merging.  */
     double max_err;
-
-    /*  Number of worker threads to use while meshing.  Set as 0 to use the
-     *  platform-default number of threads. */
-    unsigned workers;
 
     /*  This is the meshing algorti */
     BRepAlgorithm alg;

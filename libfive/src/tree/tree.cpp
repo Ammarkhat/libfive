@@ -764,8 +764,7 @@ Tree Tree::optimized_helper(
                     // This should be caught above
                     assert(false);
                 } else {
-                    // Don't do anything; this tree will be moved to
-                    // the output stack in the Up { } task
+                    // Don't do anything; this tree will be moved to task
                 }
             }
         } else if (auto d = std::get_if<Up>(&t)) {

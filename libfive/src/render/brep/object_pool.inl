@@ -122,25 +122,15 @@ int64_t ObjectPool<T, Ts...>::num_blocks() const {
 }
 
 template <typename T, typename... Ts>
-void ObjectPool<T, Ts...>::reset(unsigned workers,
+void ObjectPool<T, Ts...>::reset(
            ProgressHandler* progress_watcher)
 {
-    auto workers_needed = std::max(allocated_blocks.size(),
-                                   fresh_blocks.size());
-    if (workers_needed < workers)
-    {
-        workers = workers_needed;
-    }
-
-    
-    
-
     // Delete all of the blocks, using multiple threads for speed
-    for (unsigned i=0; i < workers; ++i) {
+    for (unsigned i=0; i < 1; ++i) {
         
         
                 for (unsigned j=i; j < allocated_blocks.size();
-                                   j += workers)
+                                   j += 1)
                 {
                     for (unsigned k=0; k < N; ++k) {
                         allocated_blocks[j][k].~T();
@@ -151,7 +141,7 @@ void ObjectPool<T, Ts...>::reset(unsigned workers,
                     T::operator delete[](allocated_blocks[j]);
                 }
 
-            for (unsigned j=i; j < fresh_blocks.size(); j += workers) {
+            for (unsigned j=i; j < fresh_blocks.size(); j += 1) {
                 for (unsigned k=0; k < fresh_blocks[j].second; ++k) {
                     fresh_blocks[j].first[k].~T();
                 }
@@ -162,15 +152,10 @@ void ObjectPool<T, Ts...>::reset(unsigned workers,
             }
         // );
     }
-
     
-    
-    
-    
-
     allocated_blocks.clear();
     fresh_blocks.clear();
 
-    next().reset(workers, progress_watcher);
+    next().reset(progress_watcher);
 }
 }   // namespace libfive

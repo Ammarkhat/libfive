@@ -132,13 +132,13 @@ void ObjectPool<T, Ts...>::reset(unsigned workers,
         workers = workers_needed;
     }
 
-    //std::vector<std::future<void>> futures;
-    //futures.resize(workers);
+    
+    
 
     // Delete all of the blocks, using multiple threads for speed
     for (unsigned i=0; i < workers; ++i) {
-        //futures[i] = std::async(std::launch::async,
-        //        [i, this, workers, &progress_watcher]() {
+        
+        
                 for (unsigned j=i; j < allocated_blocks.size();
                                    j += workers)
                 {
@@ -160,13 +160,13 @@ void ObjectPool<T, Ts...>::reset(unsigned workers,
                 }
                 T::operator delete [](fresh_blocks[j].first);
             }
-        // });
+        );
     }
 
-    // Wait on all of the futures
-    // for (auto& f : futures) {
-    //     f.get();
-    // }
+    
+    
+    
+    
 
     allocated_blocks.clear();
     fresh_blocks.clear();

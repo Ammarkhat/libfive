@@ -268,24 +268,24 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
         settings.progress_handler->nextPhase(t.size() + 1);
     }
 
-    //std::vector<std::future<void>> futures;
-    //futures.resize(settings.workers);
+    
+    
     bool done(false);
     for (unsigned i=0; i < settings.workers; ++i) {
-        //futures[i] = std::async(std::launch::async,
+        
         //    [&breps, &tasks, &MesherFactory, &settings, &done, i]()
         //    {
                 auto m = MesherFactory(breps[i], i);
                 Dual<N>::run(m, tasks, settings, done);
-        //    });
+        );
     }
 
-    // Wait on all of the futures
-    // for (auto& f : futures) {
-    //     f.get();
-    // }
+    
+    
+    
+    
 
-    //assert(done || settings.cancel);
+    
 
     // Handle the top tree edges (only used for simplex meshing)
     if (M::needsTopEdges()) {
@@ -380,7 +380,7 @@ void Dual<N>::run(V& v,
     }
 
     // If we've broken out of the loop, then we should set the done flag
-    // so that other worker threads also terminate.
+    
     done =true;
 }
 

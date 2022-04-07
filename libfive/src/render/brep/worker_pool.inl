@@ -60,17 +60,17 @@ Root<T> WorkerPool<T, Neighbors, N>::build(
     bool done(false);
     for (unsigned i=0; i < settings.workers; ++i)
     {
-        //futures[i] = std::async(std::launch::async,
+        
         //        [&eval, &tasks, &out, &root_lock, &settings, &done, i](){
                     run(eval + i, tasks, out, root_lock, settings, done);
-        //        });
+        );
     }
 
-    // Wait on all of the futures
-    // for (auto& f : futures)
+    
+    
     // {
-    //     f.get();
-    // }
+    
+    
 
     assert(done || settings.cancel);
 
@@ -232,7 +232,7 @@ void WorkerPool<T, Neighbors, N>::run(
     }
 
     // If we've broken out of the loop, then we should set the done flag
-    // so that other worker threads also terminate.
+    
     done = true;
 
     {   // Release the pooled objects to the root

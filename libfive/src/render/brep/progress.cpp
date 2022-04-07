@@ -64,9 +64,9 @@ void ProgressHandler::start(const std::vector<unsigned>& weights)
 }
 
 void ProgressHandler::nextPhase(uint64_t total) {
-    // When we start the worker thread, we set current_phase = phases.end()
+    
     // to mark that it hasn't yet started.  The first branch of this
-    // conditional detects that case and starts the worker thread.
+    
     if (current_phase == phases.end()) {
         current_phase = phases.begin();
         run();
@@ -89,7 +89,7 @@ void ProgressHandler::progress(double d)
 
 void ProgressHandler::finish()
 {
-    // Set the flag to abort the worker thread
+    
     done = true;
 }
 

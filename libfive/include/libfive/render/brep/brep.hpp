@@ -62,7 +62,7 @@ public:
         verts.resize(num_verts);
         branes.resize(num_branes);
 
-        for (unsigned j=i; j < children.size(); j++) {
+        for (unsigned j=0; j < children.size(); j++) {
             const auto& c = children[j];
 
             // Unpack vertices, which all have unique indexes into

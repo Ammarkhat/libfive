@@ -278,7 +278,7 @@ std::unique_ptr<typename M::Output> Dual<N>::walk_(
 
     auto out = std::make_unique<typename M::Output>();
     std::vector<PerThreadBRep<N>> breps;
-    breps.push_back(prep);
+    breps.push_back(brep);
     out->collect(breps);
     return out;
 }

@@ -44,8 +44,10 @@ T* ObjectPool<T, Ts...>::get(Args... args)
     }
 
     if (fresh_blocks.empty()) {
-        fresh_blocks.push_back(std::make_pair(
-                    static_cast<T*>(T::operator new[](sizeof(T) * N)), 0));
+        T* newArray = new T[N];
+        //auto newArray = new T*(sizeof(T) * N);
+        fresh_blocks.push_back(std::make_pair(newArray, 0));
+        //fresh_blocks.push_back(std::make_pair(static_cast<T*>(T::operator new[](sizeof(T) * N)), 0));
     }
     assert(fresh_blocks.size());
 
@@ -138,7 +140,7 @@ void ObjectPool<T, Ts...>::reset(
                     if (progress_watcher) {
                         progress_watcher->tick();
                     }
-                    T::operator delete[](allocated_blocks[j]);
+                    //T::operator delete[](allocated_blocks[j]);
                 }
 
             for (unsigned j=i; j < fresh_blocks.size(); j += 1) {
@@ -148,7 +150,7 @@ void ObjectPool<T, Ts...>::reset(
                 if (progress_watcher) {
                     progress_watcher->tick();
                 }
-                T::operator delete [](fresh_blocks[j].first);
+                //T::operator delete [](fresh_blocks[j].first);
             }
         // );
     }

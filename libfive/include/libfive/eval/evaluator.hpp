@@ -31,7 +31,7 @@ public:
         JacobianEvaluator(t, vars),
         IntervalEvaluator(t, vars) {}
 
-    ALIGNED_OPERATOR_NEW_AND_DELETE(Evaluator)
+    //ALIGNED_OPERATOR_NEW_AND_DELETE(Evaluator)
 
     std::shared_ptr<Deck> getDeck() { return BaseEvaluator::deck; }
 

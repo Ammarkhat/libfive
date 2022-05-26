@@ -31,7 +31,7 @@ public:
     std::map<Tree::Id, float> gradient(const Eigen::Vector3f& p,
                                        const Tape& tape);
 
-    ALIGNED_OPERATOR_NEW_AND_DELETE(JacobianEvaluator)
+    //ALIGNED_OPERATOR_NEW_AND_DELETE(JacobianEvaluator)
 
 protected:
     /*  j(var) = dout / dvar */

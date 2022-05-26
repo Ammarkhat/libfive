@@ -264,7 +264,7 @@ public:
     int32_t level;
 
     /*  Boilerplate for an object that contains an Eigen struct  */
-    ALIGNED_OPERATOR_NEW_AND_DELETE(Region)
+    //ALIGNED_OPERATOR_NEW_AND_DELETE(Region)
 
 };
 

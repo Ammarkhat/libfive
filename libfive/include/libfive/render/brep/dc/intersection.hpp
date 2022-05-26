@@ -96,7 +96,7 @@ struct Intersection {
     double BtB;
     mutable int8_t rank=-1;
 
-    ALIGNED_OPERATOR_NEW_AND_DELETE(Intersection)
+    //ALIGNED_OPERATOR_NEW_AND_DELETE(Intersection)
 };
 
 }   // namespace libfive
